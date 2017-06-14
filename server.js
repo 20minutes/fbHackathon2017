@@ -51,13 +51,16 @@ server.post('/fakenews', function create(req, res, next) {
     }
   });
 
-  res.send(200, `{
+  var resBody = `{
 "speech": "Barack Hussein Obama II is the 44th and current President of the United States.",
 "displayText": "Barack Hussein Obama II is the 44th and current President of the United States, and the first African American to hold the office. Born in Honolulu, Hawaii, Obama is a graduate of Columbia University   and Harvard Law School, where ",
 "data": {...},
 "contextOut": [...],
 "source": "DuckDuckGo"
-}`)
+}`
+
+  res.header('Content-Type', 'application/json')
+  res.send(200, resBody)
   return next()
 })
 
