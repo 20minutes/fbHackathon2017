@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/bmillot/fbHackathon2017#readme",
   "dependencies": {
+    "mongoose": "^4.10.6",
     "restify": "^4.3.0"
   }
 }
