@@ -33,7 +33,15 @@ server.post('/fakenews', function create(req, res, next) {
       fakenews.score = fakenews.score + 1
       fakenews.save(function (err, updateNews) {
         if (err) return handleError(err)
-      })
+          res.send(200, `{
+"speech": "Barack Hussein Obama II is the 44th and current President of the United States.",
+"displayText": "Barack Hussein Obama II is the 44th and current President of the United States, and the first African American to hold the office. Born in Honolulu, Hawaii, Obama is a graduate of Columbia University   and Harvard Law School, where ",
+"data": {...},
+"contextOut": [...],
+"source": "DuckDuckGo"
+}`)
+          return next()
+        })
     } else {
       var news = new Fakenews({
         speech: req.body.result.speech,
@@ -47,21 +55,28 @@ server.post('/fakenews', function create(req, res, next) {
 
       news.save(function (err, news) {
         if (err) return console.error(err)
+        
+        var resBody = {
+          speech: "Nous n'navons pas d'informations sur ce sujet, nos journalistes vont traiter votre demande",
+          displayText: "myMessage",
+          source: "webhook"
+        } 
+
+        res.contentType = 'json'
+        res.send(200, resBody)
+        return next()
       })
     }
   });
 
-  var resBody = `{
+  /*var resBody = `{
 "speech": "Barack Hussein Obama II is the 44th and current President of the United States.",
 "displayText": "Barack Hussein Obama II is the 44th and current President of the United States, and the first African American to hold the office. Born in Honolulu, Hawaii, Obama is a graduate of Columbia University   and Harvard Law School, where ",
 "data": {...},
 "contextOut": [...],
 "source": "DuckDuckGo"
-}`
-
-  res.header('Content-Type', 'application/json')
-  res.send(200, resBody)
-  return next()
+}`)
+  return next()*/
 })
 
 server.listen(8080, function() {
