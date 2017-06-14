@@ -1,7 +1,6 @@
 var restify = require('restify');
 var mongoose = require('mongoose');
 
-
 mongoose.connect('mongodb://localhost/hackathon')
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'))
@@ -19,25 +18,38 @@ var fakenewsSchema = mongoose.Schema({
   status: String,
   date: Date,
   meta: [],
-  source: String
+  source: String,
+  score: Number
 })
 
 var Fakenews = mongoose.model('Fakenews', fakenewsSchema)
 
 server.post('/fakenews', function create(req, res, next) {
 
-  var news = new Fakenews({ 
-    speech: req.body.result.speech,
-    link: req.body.result.parameters.url,
-    status: 'new',
-    date: req.body.timestamp,
-    meta: [],
-    source: null,
-  })
+  Fakenews.findOne({ 'link': req.body.result.parameters.url }, function (err, fakenews) {
+    if (err) return handleError(err)
 
-  news.save(function (err, news) {
-    if (err) return console.error(err)
-  })
+    if (fakenews !== null) {
+      fakenews.score = fakenews.score + 1
+      fakenews.save(function (err, updateNews) {
+        if (err) return handleError(err)
+      })
+    } else {
+      var news = new Fakenews({
+        speech: req.body.result.speech,
+        link: req.body.result.parameters.url,
+        status: 'new',
+        date: req.body.timestamp,
+        meta: [],
+        source: null,
+        score: 0
+      })
+
+      news.save(function (err, news) {
+        if (err) return console.error(err)
+      })
+    }
+  });
 
   res.send(200, `{
 "speech": "Barack Hussein Obama II is the 44th and current President of the United States.",
