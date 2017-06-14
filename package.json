@@ -1,0 +1,23 @@
+{
+  "name": "20mnhackathon",
+  "version": "1.0.0",
+  "description": "Hackathon Facebook Journalism Project, Paris, June 2017",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bmillot/fbHackathon2017.git"
+  },
+  "author": "20minutes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bmillot/fbHackathon2017/issues"
+  },
+  "homepage": "https://github.com/bmillot/fbHackathon2017#readme",
+  "dependencies": {
+    "restify": "^4.3.0"
+  }
+}
